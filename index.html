@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regenesis - The Anti-Chart</title>
+    <title>BACKWARD KEY — Inverse Terminal</title>
     <style>
         * {
             margin: 0;
@@ -12,12 +12,12 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            color: #ffffff;
+            background: linear-gradient(135deg, #0a0a1a 0%, #12122b 50%, #0e0e26 100%);
+            color: #eef5ff;
             font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
             overflow: hidden;
             height: 100vh;
-            transform: scaleX(-1);
+            transform: scaleX(-1);  /* global mirror — reverse dimension */
         }
 
         .container {
@@ -29,55 +29,131 @@
         .chart-section {
             flex: 1;
             position: relative;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-right: 1px solid rgba(100, 180, 255, 0.2);
+            padding: 16px;
         }
 
         .sidebar {
-            width: 320px;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 24px;
+            width: 360px;
+            background: rgba(8, 8, 20, 0.96);
+            backdrop-filter: blur(24px);
+            border-left: 1px solid rgba(80, 170, 255, 0.3);
+            padding: 20px 18px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 18px;
+            overflow-y: auto;
         }
+
+        /* Pumpfun inspired bonding card */
+        .pump-card {
+            background: rgba(25, 35, 55, 0.7);
+            border: 1px solid rgba(255, 200, 80, 0.35);
+            border-radius: 0px;
+            padding: 16px;
+            transform: scaleX(-1);
+            backdrop-filter: blur(4px);
+        }
+
+        .bonding-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #ffdf8c;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-container {
+            height: 10px;
+            background: #1e1f2c;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ffb347, #ffdd77);
+            box-shadow: 0 0 8px #ffbb44;
+            transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .quick-buy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .buy-btn {
+            background: #1e3a2f;
+            border: 1px solid #2ecc71;
+            color: #ccffdd;
+            padding: 8px 6px;
+            border-radius: 40px;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(5px);
+        }
+
+        .buy-btn:hover { background: #2ecc71; color: #000; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(46,204,113,0.3);}
+
+        .trade-feed {
+            height: 130px;
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 14px;
+            padding: 8px 10px;
+            font-size: 10px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-top: 12px;
+            font-family: monospace;
+        }
+
+        .feed-row {
+            margin-bottom: 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 4px;
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between;
+            animation: fadeSlide 0.25s ease;
+        }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
 
         .title {
             font-size: 28px;
             font-weight: 800;
             text-align: center;
-            background:linear-gradient(45deg, #ffffff, #ffffff, #fd0000);
+            background: linear-gradient(135deg, #f5e6b0, #ffc978, #ff9f4a);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(255, 0, 110, 0.3);
-            letter-spacing: -1px;
-            transform: scaleX(-1); /* Counteract body mirroring for title */
+            transform: scaleX(-1);
+            letter-spacing: -0.5px;
         }
 
         .price-display {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 24px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 180, 70, 0.4);
+            border-radius: 28px;
+            padding: 18px;
             text-align: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
         }
 
         .current-price {
             font-size: 36px;
-            color: #ff4757;
-            margin-bottom: 8px;
-            font-weight: 700;
-            letter-spacing: -1px;
-        }
-
-        .price-change {
-            font-size: 14px;
-            color: #ff6b6b;
-            opacity: 0.8;
+            font-weight: 800;
+            color: #ff7b72;
+            text-shadow: 0 0 8px rgba(255,80,80,0.4);
         }
 
         .stats {
@@ -87,165 +163,123 @@
         }
 
         .stat-item {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(5px);
+            background: rgba(30, 40, 65, 0.5);
+            padding: 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(100, 160, 255, 0.2);
         }
 
-        .stat-label {
-            font-size: 11px;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
+        .stat-label { font-size: 9px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .stat-value { font-size: 15px; font-weight: 600; color: #ffda99; }
 
-        .stat-value {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .countdown {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.08), rgba(251, 86, 7, 0.08));
-            border: 1px solid rgba(255, 0, 110, 0.2);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .countdown-title {
-            font-size: 12px;
-            opacity: 0.7;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .countdown-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #ffbe0b;
-        }
-
-        .chart-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .chart-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+        .chart-container { width: 100%; height: 100%; position: relative; background: #05051020; border-radius: 24px; overflow: hidden; }
+        .chart-canvas { width: 100%; height: 100%; display: block; }
 
         .pump-indicator {
             position: absolute;
-            top: 24px;
-            right: 24px;
-            background: rgba(0, 255, 127, 0.1);
-            border: 1px solid rgba(0, 255, 127, 0.4);
-            border-radius: 8px;
-            padding: 12px 16px;
+            top: 28px;
+            right: 28px;
+            background: #ff8c42cc;
+            backdrop-filter: blur(12px);
+            border: 1px solid #ffb347;
+            border-radius: 0px;
+            padding: 10px 20px;
+            font-weight: 800;
             font-size: 13px;
-            font-weight: 600;
-            color: #00ff7f;
+            color: #1e1e2a;
             display: none;
-            backdrop-filter: blur(10px);
-        }
-
-        .time-axis {
-            position: absolute;
-            bottom: 40px;
-            left: 60px;
-            right: 60px;
-            height: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            opacity: 0.5;
-        }
-
-        .price-axis {
-            position: absolute;
-            left: 20px;
-            top: 40px;
-            bottom: 60px;
-            width: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-end;
-            font-size: 10px;
-            opacity: 0.5;
-        }
-        
-        .regen-btn {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            font-size: 10px;
-            font-family: inherit;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-left: 8px;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(5px);
-            transform: scaleX(-1); /* Counteract body mirroring for button */
-        }
-        
-        .regen-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .mirror-text {
+            z-index: 20;
             transform: scaleX(-1);
-            display: inline-block;
+            letter-spacing: 1px;
         }
-        
-        .normal-text {
-            transform: scaleX(1);
-            display: inline-block;
+
+        .mirror-text { transform: scaleX(-1); display: inline-block; }
+
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(-1);
+            background: #2c2e4ecc;
+            backdrop-filter: blur(12px);
+            border: 1px solid #ffb347;
+            color: #ffeaac;
+            padding: 8px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 12px;
+            display: none;
+            z-index: 1000;
+            font-family: monospace;
+        }
+
+        .logo-image {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 12px #ffaa44aa);
+            background: rgba(0,0,0,0.3);
+            padding: 5px;
+        }
+
+        .axis-label {
+            position: absolute;
+            left: 12px;
+            bottom: 8px;
+            font-size: 9px;
+            opacity: 0.5;
+            transform: scaleX(-1);
         }
     </style>
 </head>
 <body>
-    <div class="pump-indicator" id="pumpIndicator">1000X PUMP ACTIVATED!</div>
+    <div class="pump-indicator" id="pumpIndicator">⚡ BACKWARD UNLOCK: 1000x REVERSE SURGE ⚡</div>
+    <div class="toast" id="toast">⟳ ORDER MIRRORED + REVERSE BOND</div>
 
     <div class="container">
         <div class="chart-section">
             <div class="chart-container">
                 <canvas class="chart-canvas" id="chartCanvas"></canvas>
-                <div class="price-axis" id="priceAxis"></div>
-                <div class="time-axis" id="timeAxis"></div>
+                <div class="axis-label">◀ TIME (REVERSED) | PRICE AXIS MIRROR ▶</div>
             </div>
         </div>
         
         <div class="sidebar">
-            <div class="title">Regenesis Coin</div>
+            <div class="title">⟁ BACKWARD KEY ⟁</div>
+
+            <!-- PUMP.FUN style bonding curve -->
+            <div class="pump-card">
+                <div class="bonding-header">
+                    <span>◀ INVERSE BONDING CURVE</span>
+                    <span id="curvePercent">0%</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="quick-buy-grid">
+                    <button class="buy-btn" onclick="buySol(0.1)">0.1 SOL</button>
+                    <button class="buy-btn" onclick="buySol(0.5)">0.5 SOL</button>
+                    <button class="buy-btn" onclick="buySol(1.0)">1.0 SOL</button>
+                </div>
+                <div class="trade-feed" id="tradeFeed">
+                    <div class="feed-row">⟳ awaiting reverse flow...</div>
+                </div>
+            </div>
             
             <div class="price-display">
-                <div class="current-price" id="currentPrice">$1000.00</div>
-                <div class="price-change" id="priceChange">-0.005% / sec</div>
+                <div class="current-price" id="currentPrice">$1,000.00</div>
+                <div style="font-size: 10px; color: #ffaa77; margin-top: 6px;">◀ reverse drift: 0.005%/s</div>
             </div>
 
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-label">Start Price</div>
+                    <div class="stat-label">Genesis Lock</div>
                     <div class="stat-value">$1,000.00</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">Floor Price</div>
+                    <div class="stat-label">Abyss Floor</div>
                     <div class="stat-value">$0.0001</div>
                 </div>
                 <div class="stat-item">
@@ -253,400 +287,357 @@
                     <div class="stat-value">0.005%/s</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">Pump Multi</div>
+                    <div class="stat-label">Key Multiplier</div>
                     <div class="stat-value">1000x</div>
                 </div>
             </div>
 
-            <div class="countdown">
-                <div class="countdown-title">
-                    <span class="mirror-text" data-normal="Time to Big Bang">GNĀB GIB OT EMIT</span>
-                    <button class="regen-btn" onclick="toggleText(this)">Regen</button>
-                </div>
-                <div class="countdown-value" id="countdown">Calculating...</div>
-            </div>
-
             <div class="stat-item">
                 <div class="stat-label">
-                    <span class="mirror-text" data-normal="Position Status">Position Status</span>
-                    <button class="regen-btn" onclick="toggleText(this)">Regen</button>
+                    <span class="mirror-text" data-normal="KEYHOLDER STATUS">SUTATS REDLOH YEK</span>
                 </div>
-                <div class="stat-value" id="diamondHands">💎 SNAHD NOMAID</div>
+                <div class="stat-value" id="diamondHands">💎 REVERSE DIAMOND</div>
             </div>
 
             <div class="logo-section">
-                <div class="logo-container">
-                    <img src="image (1).png" alt="Regenesis Coin Logo" class="logo-image">
-                </div>
-                <div class="social-links">
-                    <a href="https://x.com/Regenesis_Coin" target="_blank" class="twitter-link">
-                        <span class="-text" data-normal="Follow on Twitter">X no wolloF</span>
-                        <button class="regen-btn" onclick="toggleText(this)">Regen</button>
-                    </a>
+                <img src="image (1).png" alt="Backward Key Sigil" class="logo-image" onerror="this.src='https://placehold.co/110x110/222233/ffcc77?text=⟁BK'">
+                <div style="text-align: center; margin-top: 10px;">
+                    <a href="https://x.com/BackwardKey" target="_blank" style="color: #6ec8ff; text-decoration: none; font-size: 11px; transform: scaleX(-1); display: inline-block;">⟲ X / TWITTER MIRROR</a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        class ReverseMoonChart {
+        // ----------------------------------------------
+        //  ADVANCED CHART SYSTEM — REVERSE MOON (CANDLESTICK)
+        //  Full OHLC, dynamic scaling, smooth decay & surge
+        // ----------------------------------------------
+        class BackwardKeyProChart {
             constructor() {
                 this.canvas = document.getElementById('chartCanvas');
                 this.ctx = this.canvas.getContext('2d');
-                this.startPrice = 1000;
-                this.currentPrice = 1000;
+                this.startPrice = 1000.0;
+                this.currentPrice = 1000.0;
                 this.floorPrice = 0.0001;
-                this.decayRate = 0.00005; // 0.005% per second
-                this.pumpMultiplier = 1000;
-                this.startTime = Date.now();
+                this.decayRate = 0.00005;      // 0.005% per sec
+                this.surgeMultiplier = 1000;
+                this.isSurge = false;
+                this.surgeStart = 0;
+                this.surgeDuration = 10000;     // 10 sec surge to original price
+                this.lastUpdate = Date.now();
+                this.candles = [];               // full OHLC storage
+                this.candleInterval = 1000;      // 1 sec candle
                 this.lastCandleTime = Date.now();
-                this.candlesticks = [];
-                this.isPumping = false;
-                this.pumpStartTime = 0;
-                this.pumpDuration = 0.001; // 10 seconds pump
-                this.candleInterval = 1000; // 1 second per candle (faster)
                 this.currentCandle = null;
+                this.animationFrame = null;
                 
-                this.setupCanvas();
-                this.generateInitialCandles();
-                this.initializeCandle();
-                this.startSimulation();
+                this.initCanvas();
+                this.generateHistoryCandles(40);
+                this.initNewCandle();
+                this.startEngine();
+                this.initTradeFeedAuto();
+                
+                // resize handler robust
+                window.addEventListener('resize', () => this.handleResize());
             }
-
-            generateInitialCandles() {
-                // Generate initial candles with faster movement
+            
+            handleResize() {
+                setTimeout(() => {
+                    this.initCanvas();
+                    this.drawChart();
+                }, 80);
+            }
+            
+            initCanvas() {
+                const rect = this.canvas.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) return;
+                this.canvas.width = rect.width * devicePixelRatio;
+                this.canvas.height = rect.height * devicePixelRatio;
+                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+                this.ctx.scale(devicePixelRatio, devicePixelRatio);
+                this.width = rect.width;
+                this.height = rect.height;
+            }
+            
+            generateHistoryCandles(count) {
                 let price = this.startPrice;
-                const now = Date.now();
-                
-                for (let i = 0; i < 5; i++) { // Fewer initial candles
-                    const candleStartTime = now - (5 - i) * this.candleInterval;
-                    
-                    // More aggressive decay for faster movement
-                    const decayFactor = Math.pow(1 - this.decayRate * 3, this.candleInterval / 1000);
-                    const volatility = 0.95 + Math.random() * 0.1; // More volatility
-                    
+                for (let i = 0; i < count; i++) {
+                    const decay = Math.pow(1 - this.decayRate * 1.5, 1.0);
+                    const volatility = 0.985 + Math.random() * 0.03;
+                    let close = price * decay * volatility;
+                    if (close < 0.001) close = 0.01;
                     const open = price;
-                    const targetClose = price * decayFactor * volatility;
-                    
-                    // Generate OHLC with wider range
-                    const high = Math.max(open, targetClose) * (1 + Math.random() * 0.05);
-                    const low = Math.min(open, targetClose) * (1 - Math.random() * 0.05);
-                    const close = targetClose;
-                    
-                    this.candlesticks.push({
-                        open: open,
-                        high: high,
-                        low: low,
-                        close: close,
-                        startTime: candleStartTime
+                    const high = Math.max(open, close) * (1 + Math.random() * 0.025);
+                    const low = Math.min(open, close) * (1 - Math.random() * 0.025);
+                    this.candles.push({
+                        open, high, low, close,
+                        timestamp: Date.now() - (count - i) * this.candleInterval
                     });
-                    
                     price = close;
                 }
-                
                 this.currentPrice = price;
             }
-
-            setupCanvas() {
-                const rect = this.canvas.getBoundingClientRect();
-                this.canvas.width = rect.width * window.devicePixelRatio;
-                this.canvas.height = rect.height * window.devicePixelRatio;
-                this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-                this.canvasWidth = rect.width;
-                this.canvasHeight = rect.height;
-            }
-
-            initializeCandle() {
+            
+            initNewCandle() {
                 this.currentCandle = {
                     open: this.currentPrice,
                     high: this.currentPrice,
                     low: this.currentPrice,
                     close: this.currentPrice,
-                    startTime: Date.now()
+                    timestamp: Date.now()
                 };
             }
-
+            
             updatePrice() {
                 const now = Date.now();
-                const deltaTime = (now - this.lastUpdateTime || now) / 1000;
+                let delta = Math.min(0.15, (now - this.lastUpdate) / 1000);
+                if (delta <= 0) delta = 0.016;
                 
-                if (this.isPumping) {
-                    const pumpProgress = (now - this.pumpStartTime) / 1000;
-                    if (pumpProgress < this.pumpDuration) {
-                        // Exponential pump with some volatility
-                        const baseMultiplier = Math.pow(this.pumpMultiplier, pumpProgress / this.pumpDuration);
-                        const volatility = 1 + 0.1 * Math.sin(pumpProgress * 8) * Math.random();
-                        this.currentPrice = this.floorPrice * baseMultiplier * volatility;
+                if (this.isSurge) {
+                    const elapsed = now - this.surgeStart;
+                    if (elapsed < this.surgeDuration) {
+                        // reverse ascent: from floor back to start price
+                        const t = elapsed / this.surgeDuration;
+                        const targetPrice = this.startPrice * t + this.floorPrice * (1 - t);
+                        const surgeBoost = 1 + Math.sin(t * Math.PI * 2.5) * 0.04 * (1 - t);
+                        let newPrice = targetPrice * surgeBoost;
+                        newPrice = Math.min(this.startPrice * 1.02, Math.max(this.floorPrice, newPrice));
+                        this.currentPrice = newPrice;
                     } else {
-                        // Reset after pump
-                        this.resetChart();
+                        // reset fully after surge
+                        this.currentPrice = this.startPrice;
+                        this.isSurge = false;
+                        document.getElementById('pumpIndicator').style.display = 'none';
+                        // preserve candles but reset recent
+                        this.candles = [];
+                        this.generateHistoryCandles(25);
+                        this.initNewCandle();
+                        this.lastCandleTime = now;
                     }
                 } else {
-                    // Exponential decay with more volatility for faster movement
-                    const baseDecay = Math.pow(1 - this.decayRate * 2, deltaTime); // Faster decay
-                    const volatility = 1 + 0.05 * (Math.random() - 0.5); // More price fluctuations
-                    this.currentPrice *= baseDecay * volatility;
-                    
-                    // Ensure we don't go below floor
-                    if (this.currentPrice <= this.floorPrice) {
-                        this.currentPrice = this.floorPrice;
-                        this.triggerBigBang();
+                    // exponential decay with dynamic jitter
+                    let decayFactor = Math.pow(1 - this.decayRate * 1.6, delta);
+                    let noise = 1 + (Math.random() - 0.5) * 0.022;
+                    let newPrice = this.currentPrice * decayFactor * noise;
+                    if (newPrice <= this.floorPrice) {
+                        newPrice = this.floorPrice;
+                        this.triggerReverseKey();
                     }
+                    this.currentPrice = Math.max(this.floorPrice, Math.min(this.startPrice * 1.1, newPrice));
                 }
                 
-                // Update current candle
+                // Update live candle OHLC
                 if (this.currentCandle) {
                     this.currentCandle.close = this.currentPrice;
                     this.currentCandle.high = Math.max(this.currentCandle.high, this.currentPrice);
                     this.currentCandle.low = Math.min(this.currentCandle.low, this.currentPrice);
                 }
                 
-                // Check if it's time for a new candle
+                // new candle creation
                 if (now - this.lastCandleTime >= this.candleInterval) {
                     if (this.currentCandle) {
-                        this.candlesticks.push({...this.currentCandle});
+                        this.candles.push({ ...this.currentCandle });
                     }
-                    
-                    // Start new candle
                     this.currentCandle = {
                         open: this.currentPrice,
                         high: this.currentPrice,
                         low: this.currentPrice,
                         close: this.currentPrice,
-                        startTime: now
+                        timestamp: now
                     };
-                    
                     this.lastCandleTime = now;
-                    
-                    // Keep only last 50 candles
-                    if (this.candlesticks.length > 50) {
-                        this.candlesticks.shift();
-                    }
+                    if (this.candles.length > 90) this.candles.shift();
                 }
                 
-                this.lastUpdateTime = now;
+                this.lastUpdate = now;
+                this.updateUI();
             }
-
-            triggerBigBang() {
-                this.isPumping = true;
-                this.pumpStartTime = Date.now();
-                document.getElementById('pumpIndicator').style.display = 'block';
+            
+            triggerReverseKey() {
+                if (this.isSurge) return;
+                this.isSurge = true;
+                this.surgeStart = Date.now();
+                const indicator = document.getElementById('pumpIndicator');
+                indicator.style.display = 'block';
+                indicator.textContent = '⚡ BACKWARD KEY — 1000x REVERSE UNLOCK ⚡';
+                setTimeout(() => {
+                    if (indicator) indicator.style.opacity = '1';
+                }, 10);
             }
-
-            resetChart() {
-                this.currentPrice = this.startPrice;
-                this.isPumping = false;
-                this.startTime = Date.now();
-                this.lastCandleTime = Date.now();
-                this.candlesticks = [];
-                this.generateInitialCandles();
-                this.initializeCandle();
-                document.getElementById('pumpIndicator').style.display = 'none';
-            }
-
+            
             drawChart() {
-                this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+                if (!this.ctx || this.width < 50 || this.height < 50) return;
+                this.ctx.clearRect(0, 0, this.width, this.height);
                 
-                if (this.candlesticks.length === 0) return;
+                const allCandles = [...this.candles];
+                if (this.currentCandle) allCandles.push(this.currentCandle);
+                if (allCandles.length === 0) return;
                 
-                const padding = 60;
-                const chartWidth = this.canvasWidth - 2 * padding;
-                const chartHeight = this.canvasHeight - 2 * padding;
-                
-                // Calculate price range
-                const allPrices = this.candlesticks.flatMap(c => [c.high, c.low]);
-                if (this.currentCandle) {
-                    allPrices.push(this.currentCandle.high, this.currentCandle.low);
-                }
-                
-                const minPrice = Math.min(...allPrices);
-                const maxPrice = Math.max(...allPrices);
-                const priceRange = maxPrice - minPrice || 1;
-                const priceBuffer = priceRange * 0.1;
-                const adjustedMin = minPrice - priceBuffer;
-                const adjustedMax = maxPrice + priceBuffer;
-                const adjustedRange = adjustedMax - adjustedMin;
-                
-                // Draw grid
-                this.drawGrid(padding, chartWidth, chartHeight, adjustedMin, adjustedMax);
-                
-                // Draw candlesticks
-                const totalCandles = this.candlesticks.length + (this.currentCandle ? 1 : 0);
-                const candleWidth = Math.max(3, chartWidth / totalCandles * 0.7);
-                const candleSpacing = chartWidth / totalCandles;
-                
-                // Draw completed candles
-                this.candlesticks.forEach((candle, index) => {
-                    this.drawCandle(candle, index, candleSpacing, candleWidth, padding, chartHeight, adjustedMin, adjustedRange);
+                // dynamic price range with buffer
+                let minPrice = Infinity, maxPrice = -Infinity;
+                allCandles.forEach(c => {
+                    minPrice = Math.min(minPrice, c.low);
+                    maxPrice = Math.max(maxPrice, c.high);
                 });
+                if (minPrice === maxPrice) { minPrice *= 0.99; maxPrice *= 1.01; }
+                const buffer = (maxPrice - minPrice) * 0.08;
+                const yMin = Math.max(0, minPrice - buffer);
+                const yMax = maxPrice + buffer;
+                const rangeY = yMax - yMin;
                 
-                // Draw current candle
-                if (this.currentCandle) {
-                    this.drawCandle(this.currentCandle, this.candlesticks.length, candleSpacing, candleWidth, padding, chartHeight, adjustedMin, adjustedRange, true);
-                }
+                const padding = { left: 52, right: 24, top: 28, bottom: 42 };
+                const chartWidth = this.width - padding.left - padding.right;
+                const chartHeight = this.height - padding.top - padding.bottom;
+                if (chartWidth <= 5 || chartHeight <= 5) return;
                 
-                // Update price axis
-                this.updatePriceAxis(adjustedMin, adjustedMax);
-            }
-
-            drawGrid(padding, chartWidth, chartHeight, minPrice, maxPrice) {
-                this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-                this.ctx.lineWidth = 1;
-                
-                // Horizontal grid lines
-                for (let i = 0; i <= 10; i++) {
-                    const y = padding + (i / 10) * chartHeight;
+                // draw grid & axes
+                this.ctx.strokeStyle = 'rgba(130, 180, 250, 0.12)';
+                this.ctx.lineWidth = 0.8;
+                for (let i = 0; i <= 5; i++) {
+                    const y = padding.top + (i / 5) * chartHeight;
                     this.ctx.beginPath();
-                    this.ctx.moveTo(padding, y);
-                    this.ctx.lineTo(this.canvasWidth - padding, y);
+                    this.ctx.moveTo(padding.left, y);
+                    this.ctx.lineTo(this.width - padding.right, y);
+                    this.ctx.stroke();
+                }
+                for (let i = 0; i <= 6; i++) {
+                    const x = padding.left + (i / 6) * chartWidth;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, padding.top);
+                    this.ctx.lineTo(x, this.height - padding.bottom);
                     this.ctx.stroke();
                 }
                 
-                // Vertical grid lines
-                for (let i = 0; i <= 10; i++) {
-                    const x = padding + (i / 10) * chartWidth;
+                // draw price labels (right side)
+                for (let i = 0; i <= 4; i++) {
+                    const price = yMin + (i / 4) * rangeY;
+                    const y = padding.top + chartHeight * (1 - (price - yMin) / rangeY);
+                    this.ctx.fillStyle = '#99bbee';
+                    this.ctx.font = '9px monospace';
+                    this.ctx.fillText(price >= 1 ? `$${price.toFixed(1)}` : `$${price.toExponential(2)}`, 8, y+3);
+                }
+                
+                const candleWidth = Math.max(3.5, (chartWidth / allCandles.length) * 0.75);
+                const spacing = chartWidth / allCandles.length;
+                
+                const drawCandle = (candle, idx) => {
+                    const xCenter = padding.left + idx * spacing + spacing/2;
+                    const openY = padding.top + chartHeight * (1 - (candle.open - yMin) / rangeY);
+                    const closeY = padding.top + chartHeight * (1 - (candle.close - yMin) / rangeY);
+                    const highY = padding.top + chartHeight * (1 - (candle.high - yMin) / rangeY);
+                    const lowY = padding.top + chartHeight * (1 - (candle.low - yMin) / rangeY);
+                    const isGreen = candle.close >= candle.open;
+                    
                     this.ctx.beginPath();
-                    this.ctx.moveTo(x, padding);
-                    this.ctx.lineTo(x, this.canvasHeight - padding);
+                    this.ctx.moveTo(xCenter, highY);
+                    this.ctx.lineTo(xCenter, lowY);
+                    this.ctx.strokeStyle = isGreen ? '#3dcc7a' : '#ff6670';
+                    this.ctx.lineWidth = 1.3;
                     this.ctx.stroke();
+                    
+                    const bodyTop = Math.min(openY, closeY);
+                    const bodyHeight = Math.max(1.2, Math.abs(closeY - openY));
+                    this.ctx.fillStyle = isGreen ? '#2ecc71aa' : '#ff5a66aa';
+                    this.ctx.fillRect(xCenter - candleWidth/2, bodyTop, candleWidth, bodyHeight);
+                    this.ctx.strokeStyle = isGreen ? '#7fe0a0' : '#ff8890';
+                    this.ctx.strokeRect(xCenter - candleWidth/2, bodyTop, candleWidth, bodyHeight);
+                };
+                
+                for (let i = 0; i < this.candles.length; i++) drawCandle(this.candles[i], i);
+                if (this.currentCandle) drawCandle(this.currentCandle, this.candles.length);
+                
+                // time labels
+                this.ctx.fillStyle = '#88aadd';
+                this.ctx.font = '8px monospace';
+                const steps = ['-60s','-45s','-30s','-15s','now'];
+                for (let i=0; i<steps.length; i++) {
+                    const x = padding.left + (i / (steps.length-1)) * chartWidth;
+                    this.ctx.fillText(steps[i], x-12, this.height - padding.bottom + 16);
                 }
             }
-
-            drawCandle(candle, index, candleSpacing, candleWidth, padding, chartHeight, minPrice, priceRange, isCurrent = false) {
-                const x = padding + (index + 0.5) * candleSpacing;
-                
-                const openY = padding + (1 - (candle.open - minPrice) / priceRange) * chartHeight;
-                const closeY = padding + (1 - (candle.close - minPrice) / priceRange) * chartHeight;
-                const highY = padding + (1 - (candle.high - minPrice) / priceRange) * chartHeight;
-                const lowY = padding + (1 - (candle.low - minPrice) / priceRange) * chartHeight;
-                
-                const isGreen = candle.close >= candle.open;
-                const alpha = isCurrent ? 0.7 : 1;
-                
-                // Colors
-                this.ctx.strokeStyle = isGreen ? `rgba(0, 255, 136, ${alpha})` : `rgba(255, 71, 87, ${alpha})`;
-                this.ctx.fillStyle = isGreen ? `rgba(0, 255, 136, ${alpha * 0.8})` : `rgba(255, 71, 87, ${alpha * 0.8})`;
-                this.ctx.lineWidth = 1;
-                
-                // Draw wick (high-low line)
-                this.ctx.beginPath();
-                this.ctx.moveTo(x, highY);
-                this.ctx.lineTo(x, lowY);
-                this.ctx.stroke();
-                
-                // Draw body
-                const bodyTop = Math.min(openY, closeY);
-                const bodyHeight = Math.abs(closeY - openY);
-                
-                if (bodyHeight > 0) {
-                    this.ctx.fillRect(x - candleWidth/2, bodyTop, candleWidth, bodyHeight);
-                }
-                this.ctx.strokeRect(x - candleWidth/2, bodyTop, candleWidth, Math.max(1, bodyHeight));
-            }
-
-            updatePriceAxis(minPrice, maxPrice) {
-                const priceAxis = document.getElementById('priceAxis');
-                priceAxis.innerHTML = '';
-                
-                for (let i = 0; i <= 10; i++) {
-                    const price = minPrice + (maxPrice - minPrice) * (i / 10);
-                    const label = document.createElement('div');
-                    label.textContent = price >= 1 ? `$${price.toFixed(2)}` : `$${price.toFixed(6)}`;
-                    priceAxis.appendChild(label);
-                }
-            }
-
+            
             updateUI() {
-                // Update current price display
-                document.getElementById('currentPrice').textContent = 
-                    this.currentPrice >= 1 ? `$${this.currentPrice.toFixed(2)}` : `$${this.currentPrice.toFixed(8)}`;
-                
-                // Update countdown
-                if (!this.isPumping && this.currentPrice > this.floorPrice) {
-                    const timeToFloor = Math.log(this.floorPrice / this.currentPrice) / Math.log(1 - this.decayRate);
-                    const minutes = Math.floor(timeToFloor / 60);
-                    const seconds = Math.floor(timeToFloor % 60);
-                    document.getElementById('countdown').textContent = `${minutes}m ${seconds}s`;
-                } else if (this.isPumping) {
-                    document.getElementById('countdown').textContent = 'PUMPING! 🚀';
-                } else {
-                    document.getElementById('countdown').textContent = 'FLOOR REACHED';
+                const priceElem = document.getElementById('currentPrice');
+                if (priceElem) {
+                    priceElem.textContent = this.currentPrice >= 1 ? `$${this.currentPrice.toFixed(2)}` : `$${this.currentPrice.toFixed(8)}`;
                 }
+                // bonding curve progress based on distance to floor
+                const progressRaw = Math.min(100, ((this.startPrice - this.currentPrice) / (this.startPrice - this.floorPrice)) * 100);
+                const progress = Math.max(0, Math.min(100, progressRaw));
+                document.getElementById('progressFill').style.width = progress + '%';
+                document.getElementById('curvePercent').innerHTML = progress.toFixed(1) + '%';
                 
-                // Update diamond hands status
-                const holdTime = (Date.now() - this.startTime) / 1000;
-                if (this.isPumping) {
-                    document.getElementById('diamondHands').textContent = '🚀 MOONING';
-                } else if (holdTime > 60) {
-                    document.getElementById('diamondHands').textContent = '💎 SNAHD NOMAID';
+                // diamond hands logic based on hold simulation (time since last surge)
+                if (this.isSurge) {
+                    document.getElementById('diamondHands').innerHTML = '🗝️ REVERSE ASCENSION 🗝️';
+                } else if (this.currentPrice < this.startPrice * 0.3) {
+                    document.getElementById('diamondHands').innerHTML = '💎 REVERSE DIAMOND 💎';
                 } else {
-                    document.getElementById('diamondHands').textContent = '📄 SNAHD REPAP';
+                    document.getElementById('diamondHands').innerHTML = '⟁ BACKWARD HOLDER ⟁';
                 }
             }
-
-            startSimulation() {
-                const gameLoop = () => {
+            
+            initTradeFeedAuto() {
+const buyers = ['7xKXk2WpYcLvXqZ9RmN4JhVbC8fGtY3uHjKlQwErTy', 'D5qFpLmN2oXzVbC7xZaSdFgHjKlQwErTyUiOp', '3rJtNmVbCxZaLkQwErTyUiOpAsDfGhJkL', '9zXcVbNmLkQwErTyUiOpAsDfGhJkLpO', '2yUjKlQwErTyUiOpAsDfGhJkLzXcVbN', '8mN4jKlQwErTyUiOpAsDfGhJkLzXcVbN'];
+                setInterval(() => {
+                    const feedDiv = document.getElementById('tradeFeed');
+                    const isBuy = Math.random() > 0.35;
+                    const amount = (Math.random() * 1.8).toFixed(2);
+                    const name = buyers[Math.floor(Math.random() * buyers.length)];
+                    const row = document.createElement('div');
+                    row.className = 'feed-row';
+                    row.innerHTML = `<span style="color:${isBuy ? '#4ade80' : '#f97373'}">${isBuy ? '⟳ BUY' : '⟲ SELL'}</span> 
+                                     <span>${amount} SOL</span> 
+                                     <span style="color:#bbccff">${name}</span>`;
+                    feedDiv.prepend(row);
+                    if (feedDiv.children.length > 12) feedDiv.removeChild(feedDiv.lastChild);
+                }, 2800);
+            }
+            
+            startEngine() {
+                const loop = () => {
                     this.updatePrice();
                     this.drawChart();
-                    this.updateUI();
-                    requestAnimationFrame(gameLoop);
+                    this.animationFrame = requestAnimationFrame(loop);
                 };
-                gameLoop();
-            }
-        }
-
-        // Toggle between mirrored and normal text
-        function toggleText(button) {
-            const container = button.parentElement;
-            const textElement = container.querySelector('.mirror-text, .normal-text');
-            
-            if (textElement.classList.contains('mirror-text')) {
-                // Switch to normal text
-                const normalText = textElement.getAttribute('data-normal');
-                textElement.classList.remove('mirror-text');
-                textElement.classList.add('normal-text');
-                textElement.textContent = normalText;
-            } else {
-                // Switch back to mirrored text
-                const mirroredText = reverseText(textElement.textContent);
-                textElement.classList.remove('normal-text');
-                textElement.classList.add('mirror-text');
-                textElement.textContent = mirroredText;
+                loop();
             }
         }
         
-        // Helper function to reverse text
-        function reverseText(text) {
-            // Special handling for certain words
-            const specialCases = {
-                'Time to Big Bang': 'GNĀB GIB OT EMIT',
-                'Position Status': 'SUTATS NOITISOP',
-                'Diamond Hands': 'SNAHD NOMAID',
-                'Paper Hands': 'SNAHD REPAP'
-            };
+        // Global buy action for pumpfun simulation
+        function buySol(amount) {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 2000);
             
-            if (specialCases[text]) {
-                return specialCases[text];
+            // add visual trade to feed
+            const feed = document.getElementById('tradeFeed');
+            const div = document.createElement('div');
+            div.className = 'feed-row';
+            div.style.background = 'rgba(46, 204, 113, 0.1)';
+            div.innerHTML = `<span style="color:#4ade80">⟳ BUY</span> <span>${amount} SOL</span> <span style="color:gold">✦ YOU (reverse)</span>`;
+            feed.prepend(div);
+            if (feed.children.length > 12) feed.removeChild(feed.lastChild);
+            
+            // micro price effect: buy pressure slightly slows decay for 1 sec (optional vibe)
+            if (window.chartEngine && !window.chartEngine.isSurge) {
+                // small psychological effect - just for immersion
+                const currentVal = window.chartEngine.currentPrice;
+                window.chartEngine.currentPrice = Math.min(window.chartEngine.startPrice, currentVal * 1.003);
             }
-            
-            // Default reverse for other text
-            return text.split('').reverse().join('');
         }
-
-        // Initialize
+        
+        // init chart and expose global
         window.addEventListener('load', () => {
-            new ReverseMoonChart();
-            
-            // Initialize all mirrored text elements
+            window.chartEngine = new BackwardKeyProChart();
+            // fix mirror text for any leftover
             document.querySelectorAll('.mirror-text').forEach(el => {
-                const normalText = el.getAttribute('data-normal');
-                el.textContent = reverseText(normalText);
+                const original = el.getAttribute('data-normal');
+                if (original && el.textContent !== original) {
+                    el.textContent = original.split('').reverse().join('');
+                }
             });
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            setTimeout(() => location.reload(), 100);
         });
     </script>
 </body>
